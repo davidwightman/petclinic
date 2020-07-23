@@ -11,16 +11,27 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
-//@RequestMapping("/owners")
-//@Controller
-//public class OwnerController {
+@RequestMapping("/owners")
+@Controller
+public class OwnerController {
 //    private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 //
-//    private final OwnerService ownerService;
-//
-//    public OwnerController(OwnerService ownerService) {
-//        this.ownerService = ownerService;
-//    }
+    private final OwnerService ownerService;
+
+    public OwnerController(OwnerService ownerService) {
+        this.ownerService = ownerService;
+    }
+
+    @RequestMapping({"", "/", "/index", "/index.html"})
+    public String listOwners(Model model){
+
+        model.addAttribute("owners", ownerService.findAll());
+
+        return "owners/index";
+    }
+
+    @RequestMapping("/find")
+    public String findOwners() {return "notimplemented";}
 //
 //    @InitBinder
 //    public void setAllowedFields(WebDataBinder dataBinder) {
@@ -99,4 +110,4 @@ import java.util.List;
 //        }
 //    }
 //
-//}
+}
