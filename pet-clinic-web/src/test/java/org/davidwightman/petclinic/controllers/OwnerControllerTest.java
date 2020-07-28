@@ -14,6 +14,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.HashSet;
 import java.util.Set;
 
+import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
@@ -45,6 +48,16 @@ class OwnerControllerTest {
         mockMvc = MockMvcBuilders
                 .standaloneSetup(controller)
                 .build();
+    }
+
+    @Test
+    void listOwners() throws Exception {
+        when(ownerService.findAll()).thenReturn(owners);
+
+        mockMvc.perform(get("/owners"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("owners/index"))
+                .andExpect(model().attribute("owners", hasSize(2)));
     }
 
     @Test
